@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flame/flame.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
+import 'dart:math';
+
 enum DangerLevel {green, orange, red}
 
 void main() => runApp(MyApp());
@@ -22,7 +25,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
   AnimationController controller;
   List<MeltdownButton> controlBoard = new List<MeltdownButton>();
-
+  int timeDifficulty = 0;
   String get timerString {
     Duration duration = controller.duration *controller.value;
     return '${duration.inMinutes%60}:${(duration.inSeconds%60).toString().padLeft(2,'0')}';
@@ -33,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
     controller = AnimationController(vsync: this, duration: Duration(hours:20));
     controller.forward();
     _fillBoard(controlBoard);
+    _update();
   }
 
   Widget build(BuildContext context) {
@@ -87,14 +91,30 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
     );
   }
 
+  _update() {
+    Timer.periodic(Duration(milliseconds: 1000), (Timer t) => _randomState());
+  }
+
+  _randomState(){
+    timeDifficulty++;
+    Random random = new Random();
+    setState(() {
+      for(int i = 0; i < 12; i++) {
+        if(random.nextInt(200) < timeDifficulty) {
+          controlBoard[i]._increaseState();
+        }
+      }
+    });
+  }
+
  Widget buttonState(MeltdownButton button){
     return RaisedButton(
         color: button.colorList[button.state],
         highlightColor: Colors.green,
-        child: new Text("Button text"),
+        child: new Text(button.textList[button.state]),
         onPressed: (){
           setState(() {
-            button.state++;
+            button._decreaseState();
           });
           print(button.state);
         },
@@ -107,11 +127,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
 
 class MeltdownButton{
   int state;
-  var colorList;
+  List colorList = new List();
+  List textList = new List();
   Icon buttonIcon;
   MeltdownButton(){
     state = 0;
     colorList = [Colors.green, Colors.deepOrange, Colors.red];
+    textList = ["Safe", "Caution", "Danger"];
     buttonIcon = Icon(Icons.adjust, color: colorList[state], size: 100,);
+  }
+  _increaseState(){
+    if(state < 2){
+      state++;
+    }
+  }
+
+  _decreaseState(){
+    if(state>0){
+      state--;
+    }
   }
 }
