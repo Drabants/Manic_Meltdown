@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
-import 'package:flutter/services.dart';
 import 'dart:math';
 
 enum DangerLevel {green, orange, red}
@@ -24,12 +22,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
   AnimationController controller;
+  Timer buttonTimer;
   List<MeltdownButton> controlBoard = new List<MeltdownButton>();
   int timeDifficulty = 0;
+
   String get timerString {
     Duration duration = controller.duration *controller.value;
     return '${duration.inMinutes%60}:${(duration.inSeconds%60).toString().padLeft(2,'0')}';
   }
+
   @override
   void initState(){
     super.initState();
@@ -92,17 +93,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
   }
 
   _update() {
-    Timer.periodic(Duration(milliseconds: 1000), (Timer t) => _randomState());
+    buttonTimer = new Timer.periodic(Duration(milliseconds: 2000), (Timer t) => _randomState());
   }
 
   _randomState(){
     timeDifficulty++;
+    int checkFailure = 0;
     Random random = new Random();
     setState(() {
       for(int i = 0; i < 12; i++) {
-        if(random.nextInt(200) < timeDifficulty) {
+        if(controlBoard[i].state > 1) checkFailure++;
+        if(random.nextInt(50) < timeDifficulty) {
           controlBoard[i]._increaseState();
         }
+        if(checkFailure >= 3 && buttonTimer.isActive){
+          buttonTimer.cancel();
+          _showLostAlert();
+        }
+
       }
     });
   }
@@ -116,11 +124,41 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
           setState(() {
             button._decreaseState();
           });
-          print(button.state);
         },
         shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
     );
+  }
 
+  _showLostAlert(){
+    controller.stop();
+    buttonTimer.cancel();
+    showDialog(context: context,
+    builder: (BuildContext context){
+      return AlertDialog(
+        title: new Text("You Lost Dummy!"),
+        content: new Text("Try to have less than 6 Danger panels!"),
+        actions: <Widget>[
+          // usually buttons at the bottom of the dialog
+          new FlatButton(
+            child: new Text("New Game?"),
+            onPressed: () {
+              _resetGame();
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    }
+    );
+  }
+
+  _resetGame(){
+    controller.reset();
+    controller.forward();
+    controlBoard.clear();
+    timeDifficulty = 0;
+    _fillBoard(controlBoard);
+    _update();
   }
 
 }
