@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
   }
 
   _update() {
-    buttonTimer = new Timer.periodic(Duration(milliseconds: 2000), (Timer t) => _randomState());
+    buttonTimer = new Timer.periodic(Duration(milliseconds: 1000), (Timer t) => _randomState());
   }
 
   _randomState(){
@@ -102,15 +102,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
     Random random = new Random();
     setState(() {
       for(int i = 0; i < 12; i++) {
-        if(controlBoard[i].state > 1) checkFailure++;
-        if(random.nextInt(50) < timeDifficulty) {
-          controlBoard[i]._increaseState();
-        }
         if(checkFailure >= 3 && buttonTimer.isActive){
           buttonTimer.cancel();
           _showLostAlert();
+          _resetButtonState();
         }
-
+        if(controlBoard[i].state > 1) checkFailure++;
+        if(random.nextInt(50) < timeDifficulty && buttonTimer.isActive) {
+          controlBoard[i]._increaseState();
+        }
       }
     });
   }
@@ -129,36 +129,41 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
     );
   }
 
-  _showLostAlert(){
+  _showLostAlert() {
     controller.stop();
     buttonTimer.cancel();
-    showDialog(context: context,
-    builder: (BuildContext context){
-      return AlertDialog(
-        title: new Text("You Lost Dummy!"),
-        content: new Text("Try to have less than 6 Danger panels!"),
-        actions: <Widget>[
-          // usually buttons at the bottom of the dialog
-          new FlatButton(
-            child: new Text("New Game?"),
-            onPressed: () {
-              _resetGame();
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    }
+    _resetButtonState();
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("You Lost Dummy!"),
+            content: new Text("Try to have less than 6 Danger panels!"),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text("New Game?"),
+                onPressed: () {
+                  _resetGame();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
     );
   }
+
 
   _resetGame(){
     controller.reset();
     controller.forward();
-    controlBoard.clear();
     timeDifficulty = 0;
-    _fillBoard(controlBoard);
     _update();
+  }
+
+  _resetButtonState(){
+    controlBoard.forEach((element) => element.state =0);
   }
 
 }
