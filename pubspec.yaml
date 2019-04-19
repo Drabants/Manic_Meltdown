@@ -9,9 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  flame: 0.10.3
-  font_awesome_flutter: 8.4.0
+  audioplayers: ^0.10.1
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
@@ -19,6 +17,19 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+
+  fonts:
+    - family: Monofett
+      fonts:
+      - asset: fonts/Monofett.ttf
+    - family: Righteous
+      fonts:
+      - asset: fonts/Righteous-Regular.ttf
+
+  assets:
+  - assets/Blip.wav
+  - assets/Explosion.wav
+
 
   uses-material-design: true
 

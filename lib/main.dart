@@ -9,7 +9,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Righteous',
       ),
@@ -89,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget _generateButton(MeltdownButton button) {
     return RaisedButton(
         color: colorList[button.state],
+        child: new Text(textList[button.state]),
         onPressed: () {
           setState(() {
             player.play("Blip.wav");
@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   _update() {
     buttonTimer = new Timer.periodic(
-        Duration(milliseconds: 700), (Timer t) => _updateButtons());
+        Duration(milliseconds: 1000), (Timer t) => _updateButtons());
   }
 
   _updateButtons() {

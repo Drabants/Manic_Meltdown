@@ -1,16 +1,14 @@
 # meltdown
 
-A new Flutter application.
+Meltdown is a game made in flutter for the Flutter Create contest!
+
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Simply run the app and begin to play!
 
-A few resources to get you started if this is your first Flutter project:
+You are in charge of a power plant and must maintain a control panel.
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+Do your best and last as long as you can! The longer you go, the harder it gets!
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+If you have more than 6 Danger tiles, you lose. Good Luck!
