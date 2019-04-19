@@ -28,6 +28,9 @@ flutter:
 
   assets:
   - assets/Blip.wav
+  - assets/GreenBlip.wav
+  - assets/YellowBlip.wav
+  - assets/RedBlip.wav
   - assets/Explosion.wav
 
 

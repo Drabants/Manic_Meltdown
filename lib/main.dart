@@ -24,9 +24,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
+
+  List<String> BlipList = ["GreenBlip.wav", "YellowBlip.wav", "RedBlip.wav"];
   List<MeltdownButton> controlBoard = new List<MeltdownButton>();
   List colorList = [Colors.greenAccent, Colors.amberAccent, Colors.redAccent];
-  List textList = ["SAFE", "CAUTION", "DANGER"];
   int timeDifficulty = 0;
   Timer buttonTimer;
   AnimationController controller;
@@ -88,10 +89,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget _generateButton(MeltdownButton button) {
     return RaisedButton(
         color: colorList[button.state],
-        child: new Text(textList[button.state]),
         onPressed: () {
           setState(() {
-            player.play("Blip.wav");
+            player.play(BlipList[button.state]);
             button._decreaseState();
           });
         },
