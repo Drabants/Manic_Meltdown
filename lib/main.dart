@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           _gameOver();
         }
         if (controlBoard[i].state > 1) checkFailure++;
-        if (((random.nextInt(100))/100) < ((log(timeDifficulty)/10)*.5) && buttonTimer.isActive){
+        if (((random.nextInt(100))/100) < ((log(timeDifficulty)/10)*.65) && buttonTimer.isActive){
           controlBoard[i]._increaseState();
         }
       }
