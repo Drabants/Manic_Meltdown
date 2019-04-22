@@ -7,22 +7,25 @@ class FrontPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Colors.blueGrey,
-        elevation: 0,
-        centerTitle: true,
-        title: Text('Panic Meltdown', style: TextStyle(fontSize: 50),)
-      ),
-      body: Container(
-        alignment: Alignment.center,
-        color: Colors.blueGrey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _selectionButton("New Game"),
-            _selectionButton("Settings")
-          ],
+      backgroundColor: Colors.blueGrey,
+      body: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(0, 150, 0, 150),
+            child: Text('Panic Meltdown', style: TextStyle(fontSize: 50, color: Colors.white),),
+          ),
+          Container(
+          alignment: Alignment.center,
+          color: Colors.blueGrey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _selectionButton("New Game"),
+              _selectionButton("Settings")
+            ],
+          ),
         ),
+      ]
       ),
     );
   }
@@ -33,7 +36,7 @@ class FrontPage extends StatelessWidget {
       child: ButtonTheme(
         minWidth: 200,
         child: RaisedButton(
-          onPressed: (){},
+          onPressed: (){} ,
           color: Colors.greenAccent,
           textColor: Colors.blueGrey,
           child: Text(title, style: TextStyle(fontSize: 25),),
@@ -42,4 +45,6 @@ class FrontPage extends StatelessWidget {
       ),
     );
   }
+
+
 }
