@@ -25,6 +25,9 @@ flutter:
     - family: Righteous
       fonts:
       - asset: fonts/Righteous-Regular.ttf
+    - family: Creepster
+      fonts:
+        - asset: fonts/Creepster-Regular.ttf
 
   assets:
   - assets/Blip.wav

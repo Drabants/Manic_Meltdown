@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meltdown/game_page.dart';
+import 'package:meltdown/front_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Righteous',
       ),
-      home: MyHomePage(),
+      home: FrontPage(),
     );
   }
 }
