@@ -20,8 +20,8 @@ class FrontPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _selectionButton("New Game"),
-              _selectionButton("Settings")
+              _selectionButton("New Game", context),
+              _selectionButton("Settings", context)
             ],
           ),
         ),
@@ -30,13 +30,17 @@ class FrontPage extends StatelessWidget {
     );
   }
 
-  Padding _selectionButton(String title){
+  Padding _selectionButton(String title, BuildContext context){
     return Padding(
       padding: EdgeInsets.all(30),
       child: ButtonTheme(
         minWidth: 200,
         child: RaisedButton(
-          onPressed: (){} ,
+          onPressed: (){
+            if(title == "New Game"){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+            }
+          } ,
           color: Colors.greenAccent,
           textColor: Colors.blueGrey,
           child: Text(title, style: TextStyle(fontSize: 25),),
