@@ -8,10 +8,10 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver, TickerProviderStateMixin{
 
 
-  List<String> BlipList = ["GreenBlip.wav", "YellowBlip.wav", "RedBlip.wav"];
+  List<String> blipList = ["GreenBlip.wav", "YellowBlip.wav", "RedBlip.wav"];
   List<MeltdownButton> controlBoard = new List<MeltdownButton>();
   List colorList = [Colors.greenAccent, Colors.amberAccent, Colors.redAccent];
   int timeDifficulty = 0;
@@ -23,12 +23,35 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     controller =
         AnimationController(vsync: this, duration: Duration(hours: 20));
     controller.forward();
     _fillBoard();
     _update();
+  }
 
+  @override
+  void dispose(){
+    WidgetsBinding.instance.removeObserver(this);
+    controller.dispose();
+    super.dispose();
+  }
+
+  void didChangeAppLifecycleState(AppLifecycleState state){
+    super.didChangeAppLifecycleState(state);
+    switch(state){
+      case AppLifecycleState.paused:
+        _pauseGame();
+        break;
+      case AppLifecycleState.resumed:
+        _resumeGame();
+        break;
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.suspending:
+        break;
+    }
   }
 
   Widget build(BuildContext context) {
@@ -77,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         color: colorList[button.state],
         onPressed: () {
           setState(() {
-            player.play(BlipList[button.state]);
+            player.play(blipList[button.state]);
             button._decreaseState();
           });
         },
@@ -136,6 +159,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ],
           );
         });
+  }
+
+  _pauseGame(){
+    controller.stop();
+    buttonTimer.cancel();
+  }
+
+  _resumeGame(){
+    controller.forward();
+    _update();
   }
 
   _resetAllButtonStates() {
