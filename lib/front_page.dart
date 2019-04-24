@@ -11,8 +11,9 @@ class FrontPage extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(0, 150, 0, 150),
-            child: Text('Panic Meltdown', style: TextStyle(fontSize: 50, color: Colors.white),),
+            alignment: Alignment.topCenter,
+            padding: EdgeInsets.fromLTRB(0, 150, 0, 100),
+            child: FittedBox(child: Text('Manic Meltdown', style: TextStyle(fontSize: 50, color: Colors.white),)),
           ),
           Container(
           alignment: Alignment.center,
@@ -21,7 +22,6 @@ class FrontPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _selectionButton("New Game", context),
-              _selectionButton("Settings", context)
             ],
           ),
         ),
@@ -36,6 +36,9 @@ class FrontPage extends StatelessWidget {
       child: ButtonTheme(
         minWidth: 200,
         child: RaisedButton(
+          highlightElevation: 20,
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(40.0)),
           onPressed: (){
             if(title == "New Game"){
               Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
