@@ -10,7 +10,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver, TickerProviderStateMixin{
 
-
+  bool gameOver = false;
   List<String> blipList = ["GreenBlip.wav", "YellowBlip.wav", "RedBlip.wav"];
   List<MeltdownButton> controlBoard = new List<MeltdownButton>();
   List colorList = [Colors.greenAccent, Colors.amberAccent, Colors.redAccent];
@@ -43,16 +43,29 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver, Ti
     super.didChangeAppLifecycleState(state);
     switch(state){
       case AppLifecycleState.paused:
-        _pauseGame();
+        if(!gameOver) {
+          _pauseGame();
+        }
         break;
       case AppLifecycleState.resumed:
-        _resumeGame();
+        if(!gameOver) {
+          _resumeGame();
+        }
         break;
       case AppLifecycleState.inactive:
         break;
       case AppLifecycleState.suspending:
         break;
     }
+  }
+  _pauseGame(){
+    controller.stop();
+    buttonTimer.cancel();
+  }
+
+  _resumeGame(){
+    controller.forward();
+    _update();
   }
 
   Widget build(BuildContext context) {
@@ -121,6 +134,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver, Ti
   }
 
   _updateButtons() {
+    print(timeDifficulty);
     timeDifficulty++;
     int checkFailure = 0;
     Random random = new Random();
@@ -138,6 +152,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver, Ti
   }
 
   _gameOver() {
+    gameOver = true;
+    timeDifficulty = 0;
     player.play("Explosion.wav");
     controller.stop();
     buttonTimer.cancel();
@@ -162,24 +178,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver, Ti
         });
   }
 
-  _pauseGame(){
-    controller.stop();
-    buttonTimer.cancel();
-  }
-
-  _resumeGame(){
-    controller.forward();
-    _update();
-  }
-
   _resetAllButtonStates() {
     controlBoard.forEach((element) => element.state = 0);
   }
 
   _resetGame() {
+    gameOver = false;
     controller.reset();
     controller.forward();
-    timeDifficulty = 0;
     _update();
   }
 
