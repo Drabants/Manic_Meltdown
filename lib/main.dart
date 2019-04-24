@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meltdown/game_page.dart';
 import 'package:meltdown/front_page.dart';
 
 void main() => runApp(MyApp());
@@ -8,6 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Righteous',
       ),

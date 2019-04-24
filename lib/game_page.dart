@@ -34,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver, Ti
   @override
   void dispose(){
     WidgetsBinding.instance.removeObserver(this);
+    buttonTimer.cancel();
     controller.dispose();
     super.dispose();
   }
@@ -116,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver, Ti
 
   _update() {
     buttonTimer = new Timer.periodic(
-        Duration(milliseconds: 1000), (Timer t) => _updateButtons());
+        Duration(milliseconds: 700), (Timer t) => _updateButtons());
   }
 
   _updateButtons() {
@@ -125,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver, Ti
     Random random = new Random();
     setState(() {
       for (int i = 0; i < 12; i++) {
-        if (checkFailure >= 6 && buttonTimer.isActive) {
+        if (checkFailure >= 5 && buttonTimer.isActive) {
           _gameOver();
         }
         if (controlBoard[i].state > 1) checkFailure++;
