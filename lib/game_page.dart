@@ -148,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver, Ti
         builder: (BuildContext context) {
           return AlertDialog(
             title: new Text("The Plant Has Had a Meltdown!"),
-            content: new Text("Try to keep Danger panels below 6!\n \n Time Lasted: $timerString"),
+            content: new Text("Try to keep Danger panels below 5!\n \n Time Lasted: $timerString"),
             actions: <Widget>[
               new FlatButton(
                 child: new Text("New Game?"),
