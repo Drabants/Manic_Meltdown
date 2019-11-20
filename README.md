@@ -2,7 +2,7 @@
 
 Meltdown is a game made in flutter for the Flutter Create contest!
 
-Also published to the [PlaySore](https://play.google.com/store/apps/details?id=com.fistsfullofshrimp.meltdown&hl=en_US)
+Also published to the [PlayStore](https://play.google.com/store/apps/details?id=com.fistsfullofshrimp.meltdown&hl=en_US)
 
 
 ## Getting Started
