@@ -7,7 +7,7 @@ Also published to the [PlayStore](https://play.google.com/store/apps/details?id=
 
 ## How To Play
 
-Simply run the app and begin to play!
+Go to the PlayStore and install!
 
 You are in charge of a power plant and must maintain a control panel.
 
